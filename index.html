@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apex Care — Multi-Specialty Clinic & Surgical Hospital | Vadodara</title>
+  <meta name="description" content="Premier multi-specialty clinic and day-care surgical hospital in Alkapuri, Vadodara. Specialist OPD, laser procedures, day-care surgeries across 22+ specialties.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>">
+</head>
+<body>
+
+<!-- ============ ANIMATED BACKGROUND CANVAS ============ -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- ============ NAVBAR ============ -->
+<nav class="navbar" id="navbar">
+  <!-- Brand -->
+  <div class="nav-brand">
+    <div class="nav-brand-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+    </div>
+    <div class="nav-brand-text">
+      <div class="nav-brand-name">
+        Apex Care
+        <span class="nav-brand-badge">Clinic & Surgical Hospital</span>
+      </div>
+      <div class="nav-brand-sub">Specialist OPD • Laser Procedures • Day-Care Surgeries</div>
+    </div>
+  </div>
+
+  <!-- Center Links -->
+  <div class="nav-links" id="navLinks">
+    <a href="#departments">Departments</a>
+    <a href="#infrastructure">Infrastructure</a>
+    <a href="#specialists">Specialists</a>
+    <a href="#gallery">Facility Tour</a>
+    <a href="#stories">Patient Stories</a>
+    <a href="#faq">FAQ</a>
+    <a href="#location">Location</a>
+  </div>
+
+  <!-- Right: Dedicated High-Contrast Branch Widget -->
+  <div class="nav-right">
+    <div class="branch-widget bg-[#03151e]/90 border border-sky-500/30 rounded-2xl px-4 py-2 flex flex-col items-center justify-center gap-1.5 shadow-sm">
+      <!-- Scaled Branch Switcher Track -->
+      <div class="branch-switcher bg-[#061e2b] border border-sky-900/60 p-1 rounded-xl flex items-center">
+        <button class="branch-btn active bg-gradient-to-r from-cyan-500 to-sky-500 text-white font-semibold text-sm px-4 py-1.5 rounded-lg shadow-md" data-branch="alkapuri" onclick="switchBranch('alkapuri')">Alkapuri</button>
+        <button class="branch-btn text-slate-300 hover:text-white text-sm px-4 py-1.5 transition-all" data-branch="manjalpur" onclick="switchBranch('manjalpur')">Manjalpur Br</button>
+      </div>
+      <!-- Enhanced Live Status Row -->
+      <div class="status-badge flex items-center gap-1.5 mt-1" id="statusBadge">
+        <span class="relative flex h-2.5 w-2.5">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" id="statusPing"></span>
+          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" id="statusDot"></span>
+        </span>
+        <span class="text-emerald-400 font-semibold text-xs" id="statusLabel">OPD Open</span>
+        <span class="text-slate-300 font-medium text-xs">• 24x7 Emergency</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hamburger -->
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobile()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Overlay -->
+<div class="mobile-overlay" id="mobileOverlay">
+  <button class="mobile-close" onclick="toggleMobile()">✕</button>
+  <a href="#departments" onclick="toggleMobile()">Departments</a>
+  <a href="#infrastructure" onclick="toggleMobile()">Infrastructure</a>
+  <a href="#specialists" onclick="toggleMobile()">Specialists</a>
+  <a href="#gallery" onclick="toggleMobile()">Facility Tour</a>
+  <a href="#stories" onclick="toggleMobile()">Patient Stories</a>
+  <a href="#faq" onclick="toggleMobile()">FAQ</a>
+  <a href="#location" onclick="toggleMobile()">Location</a>
+  <div class="branch-widget bg-[#03151e]/90 border border-sky-500/30 rounded-2xl px-4 py-2 flex flex-col items-center justify-center gap-1.5 shadow-sm" style="margin-top:12px;">
+    <div class="branch-switcher bg-[#061e2b] border border-sky-900/60 p-1 rounded-xl flex items-center">
+      <button class="branch-btn active bg-gradient-to-r from-cyan-500 to-sky-500 text-white font-semibold text-sm px-4 py-1.5 rounded-lg shadow-md" data-branch="alkapuri" onclick="switchBranch('alkapuri'); toggleMobile()">Alkapuri</button>
+      <button class="branch-btn text-slate-300 hover:text-white text-sm px-4 py-1.5 transition-all" data-branch="manjalpur" onclick="switchBranch('manjalpur'); toggleMobile()">Manjalpur Br</button>
+    </div>
+    <div class="status-badge flex items-center gap-1.5 mt-1">
+      <span class="relative flex h-2.5 w-2.5">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+      </span>
+      <span class="text-emerald-400 font-semibold text-xs">OPD Open</span>
+      <span class="text-slate-300 font-medium text-xs">• 24x7 Emergency</span>
+    </div>
+  </div>
+  <div style="display:flex;gap:10px;margin-top:10px;">
+    <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20would%20like%20to%20book%20an%20appointment." class="btn btn-primary btn-sm">WhatsApp</a>
+    <a href="tel:+919999999999" class="btn btn-glass btn-sm">Call Now</a>
+  </div>
+</div>
+
+<!-- ============ HERO SECTION ============ -->
+<section class="hero" id="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <!-- Left Content -->
+      <div class="hero-content">
+        <div class="hero-badge">✨ Premier Multi-Specialty Clinic & Day-Care Hospital in Alkapuri, Vadodara</div>
+        <h1>Where Advanced Clinical Precision Meets <span>Discreet, Patient-First Care</span></h1>
+        <p class="hero-sub">From routine specialist consultations and aesthetic laser procedures to advanced day-care surgeries and maternity nursing care—experience zero-wait, evidence-based healthcare under one roof.</p>
+        <div class="hero-ctas">
+          <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20would%20like%20to%20book%20a%20private%20consultation.%20Please%20share%20available%20slots." class="btn btn-primary" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.612.638l4.682-1.244A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.253 0-4.39-.727-6.172-2.072a.5.5 0 00-.414-.082l-3.348.89.647-2.872a.5.5 0 00-.069-.39A9.957 9.957 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+            Book Private Consultation on WhatsApp
+          </a>
+          <a href="tel:+919999999999" class="btn btn-glass">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            Call Reception
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Marquee -->
+      <div class="hero-marquee">
+        <div class="marquee-col marquee-col-1">
+          <div class="marquee-card"><img src="images/clinic1.jpg" alt="Luxury clinic reception" loading="lazy"></div>
+          <div class="marquee-card"><img src="images/clinic2.jpg" alt="Doctor consultation" loading="lazy"></div>
+          <div class="marquee-card"><img src="images/clinic3.jpg" alt="Laser treatment suite" loading="lazy"></div>
+          <!-- Duplicate for seamless loop -->
+          <div class="marquee-card"><img src="images/clinic1.jpg" alt="Luxury clinic reception" loading="lazy"></div>
+          <div class="marquee-card"><img src="images/clinic2.jpg" alt="Doctor consultation" loading="lazy"></div>
+          <div class="marquee-card"><img src="images/clinic3.jpg" alt="Laser treatment suite" loading="lazy"></div>
+        </div>
+        <div class="marquee-col marquee-col-2">
+          <div class="marquee-card"><img src="images/clinic4.jpg" alt="Physiotherapy studio" loading="lazy"></div>
+          <div class="marquee-card"><img src="images/clinic5.jpg" alt="Operation theatre" loading="lazy"></div>
+          <div class="marquee-card"><img src="images/clinic6.jpg" alt="VIP recovery room" loading="lazy"></div>
+          <!-- Duplicate for seamless loop -->
+          <div class="marquee-card"><img src="images/clinic4.jpg" alt="Physiotherapy studio" loading="lazy"></div>
+          <div class="marquee-card"><img src="images/clinic5.jpg" alt="Operation theatre" loading="lazy"></div>
+          <div class="marquee-card"><img src="images/clinic6.jpg" alt="VIP recovery room" loading="lazy"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Specialty Ticker -->
+    <div class="ticker-wrap">
+      <div class="ticker" id="specialtyTicker">
+        <div class="ticker-pill"><span class="check">✓</span> General Medicine & Routine Checkup</div>
+        <div class="ticker-pill"><span class="check">✓</span> Dermatology, Skin & Laser</div>
+        <div class="ticker-pill"><span class="check">✓</span> Hair Transplant (FUE/PRP)</div>
+        <div class="ticker-pill"><span class="check">✓</span> Eye Hospital (LASIK & Cataract)</div>
+        <div class="ticker-pill"><span class="check">✓</span> ENT, Ear & Sinus Clinic</div>
+        <div class="ticker-pill"><span class="check">✓</span> Orthopedics & Joint Care</div>
+        <div class="ticker-pill"><span class="check">✓</span> Brain, Spine & Neuro</div>
+        <div class="ticker-pill"><span class="check">✓</span> Physiotherapy & Rehab</div>
+        <div class="ticker-pill"><span class="check">✓</span> Women, Maternity & Gynaecology</div>
+        <div class="ticker-pill"><span class="check">✓</span> Children & Pediatric Hospital</div>
+        <div class="ticker-pill"><span class="check">✓</span> Lung, Chest & Pulmonology</div>
+        <div class="ticker-pill"><span class="check">✓</span> Diabetes, Thyroid & Heart</div>
+        <div class="ticker-pill"><span class="check">✓</span> Urology & Kidney Stone Laser</div>
+        <div class="ticker-pill"><span class="check">✓</span> Homeopathy & Ayurvedic Wellness</div>
+        <div class="ticker-pill"><span class="check">✓</span> Day-Care Surgery & Nursing Home</div>
+        <!-- Duplicate for seamless scroll -->
+        <div class="ticker-pill"><span class="check">✓</span> General Medicine & Routine Checkup</div>
+        <div class="ticker-pill"><span class="check">✓</span> Dermatology, Skin & Laser</div>
+        <div class="ticker-pill"><span class="check">✓</span> Hair Transplant (FUE/PRP)</div>
+        <div class="ticker-pill"><span class="check">✓</span> Eye Hospital (LASIK & Cataract)</div>
+        <div class="ticker-pill"><span class="check">✓</span> ENT, Ear & Sinus Clinic</div>
+        <div class="ticker-pill"><span class="check">✓</span> Orthopedics & Joint Care</div>
+        <div class="ticker-pill"><span class="check">✓</span> Brain, Spine & Neuro</div>
+        <div class="ticker-pill"><span class="check">✓</span> Physiotherapy & Rehab</div>
+        <div class="ticker-pill"><span class="check">✓</span> Women, Maternity & Gynaecology</div>
+        <div class="ticker-pill"><span class="check">✓</span> Children & Pediatric Hospital</div>
+        <div class="ticker-pill"><span class="check">✓</span> Lung, Chest & Pulmonology</div>
+        <div class="ticker-pill"><span class="check">✓</span> Diabetes, Thyroid & Heart</div>
+        <div class="ticker-pill"><span class="check">✓</span> Urology & Kidney Stone Laser</div>
+        <div class="ticker-pill"><span class="check">✓</span> Homeopathy & Ayurvedic Wellness</div>
+        <div class="ticker-pill"><span class="check">✓</span> Day-Care Surgery & Nursing Home</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Wave Divider -->
+<div class="wave-divider alt">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z"/>
+  </svg>
+</div>
+
+<!-- ============ CENTERS OF EXCELLENCE ============ -->
+<section class="section-pad section-bg" id="departments">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:40px;">
+      <div class="section-tag">🏥 Departments & Specialties</div>
+      <h2 class="section-title">Centers of Excellence</h2>
+      <p class="section-sub mx-auto">Comprehensive care across 22+ specialties — from precision laser procedures to boutique day-care surgery, all under one roof.</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="dept-tabs">
+      <button class="dept-tab active" data-tab="tab1" onclick="switchTab('tab1',this)">Skin, Hair & Aesthetics</button>
+      <button class="dept-tab" data-tab="tab2" onclick="switchTab('tab2',this)">Ortho, Spine & Physio</button>
+      <button class="dept-tab" data-tab="tab3" onclick="switchTab('tab3',this)">Eye, ENT & Micro-Surgery</button>
+      <button class="dept-tab" data-tab="tab4" onclick="switchTab('tab4',this)">Women, Maternity & Child</button>
+      <button class="dept-tab" data-tab="tab5" onclick="switchTab('tab5',this)">General, Chest & Heart</button>
+      <button class="dept-tab" data-tab="tab6" onclick="switchTab('tab6',this)">Urology, Kidney & Day-Care OT</button>
+    </div>
+
+    <!-- Tab 1: Skin, Hair & Aesthetics -->
+    <div class="dept-panel active" id="tab1">
+      <div class="dept-grid">
+        <div class="dept-image"><img src="images/clinic3.jpg" alt="Laser treatment suite"></div>
+        <div class="dept-cards">
+          <div class="dept-card">
+            <div class="dept-card-icon">🔬</div>
+            <h4>Clinical Dermatology</h4>
+            <p>Expert diagnosis and treatment for eczema, psoriasis, acne, fungal infections, and all chronic skin conditions.</p>
+            <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20need%20a%20Dermatology%20consultation.%20Please%20share%20available%20slots%20and%20cost." class="btn btn-primary btn-xs" target="_blank">Enquire Cost / Book on WhatsApp</a>
+          </div>
+          <div class="dept-card">
+            <div class="dept-card-icon">💇</div>
+            <h4>FUE Hair Transplant & PRP</h4>
+            <p>Advanced follicular unit extraction, PRP scalp therapy, and medical hair restoration by certified trichologists.</p>
+            <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20am%20interested%20in%20Hair%20Transplant%20%2F%20PRP%20treatment.%20Please%20share%20details%20and%20cost." class="btn btn-primary btn-xs" target="_blank">Enquire Cost / Book on WhatsApp</a>
+          </div>
+          <div class="dept-card">
+            <div class="dept-card-icon">✨</div>
+            <h4>US-FDA Laser Toning & Scar Revision</h4>
+            <p>US-FDA approved laser devices for pigmentation, melasma, tattoo removal, scar revision, and skin rejuvenation.</p>
+            <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20need%20information%20about%20Laser%20Skin%20Treatment.%20Please%20share%20details." class="btn btn-primary btn-xs" target="_blank">Enquire Cost / Book on WhatsApp</a>
+          </div>
+          <div class="dept-card">
+            <div class="dept-card-icon">💎</div>
+            <h4>Cosmetic & Anti-Aging Procedures</h4>
+            <p>Botox, fillers, chemical peels, microneedling, body contouring, and evidence-based anti-aging therapies.</p>
+            <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20am%20interested%20in%20Cosmetic%20%2F%20Anti-Aging%20procedures.%20Please%20share%20options%20and%20pricing." class="btn btn-primary btn-xs" target="_blank">Enquire Cost / Book on WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 2: Ortho, Spine, Neuro & Physio -->
+    <div class="dept-panel" id="tab2">
+      <div class="dept-grid">
+        <div class="dept-image"><img src="images/clinic4.jpg" alt="Physiotherapy studio"></div>
+        <div class="dept-cards">
+          <div class="dept-card">
+            <div class="dept-card-icon">🦴</div>
+            <h4>Joint Replacement & Fracture Clinic</h4>
+            <p>Total and partial knee/hip replacement, fracture management, arthroscopy, and sports injury care.</p>
+            <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20need%20an%20Orthopedic%20consultation.%20Please%20share%20details." class="btn btn-primary btn-xs" target="_blank">Enquire Cost / Book on WhatsApp</a>
+          </div>
+          <div class="dept-card">
+            <div class="dept-card-icon">🧠</div>
+            <h4>Brain & Spine Micro-Care</h4>
+            <p>Neurology consultations, spine disc treatment, migraine management, and micro-surgical neuro procedures.</p>
+            <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20need%20a%20Brain%20%2F%20Spine%20%2F%20Neuro%20consultation.%20Please%20share%20details." class="btn btn-primary btn-xs" target="_blank">Enquire Cost / Book on WhatsApp</a>
+          </div>
+          <div class="dept-card">
+            <div class="dept-card-icon">🏋️</div>
+            <h4>Advanced Physiotherapy & Electrotherapy</h4>
+            <p>Ultrasound therapy, TENS, IFT, spinal traction, post-surgical rehabilitation, and mobility recovery.</p>
+            <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20need%20Physiotherapy%20sessions.%20Please%20share%20available%20slots." class="btn btn-primary btn-xs" target="_blank">Enquire Cost / Book on WhatsApp</a>
+          </div>
+          <div class="dept-card">
+            <div class="dept-card-icon">⚡</div>
+            <h4>Sports Injury & Neuro-Rehab</h4>
+            <p>Specialised sports medicine, ligament injury recovery, stroke rehabilitation, and functional restoration.</p>
+            <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20need%20Sports%20Injury%20%2F%20Neuro-Rehab%20treatment.%20Please%20share%20details." class="btn btn-primary btn-xs" target="_blank">Enquire Cost / Book on WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 3: Eye, ENT & Micro-Surgery -->
+    <div class="dept-panel" id="tab3">
+      <div class="dept-grid">
+        <div class="dept-image"><img src="images/clinic5.jpg" alt="Day-care surgical suite"></div>
+        <div class="dept-cards">
+          <div class="dept-card">
+            <div class="dept-card-icon">👁️</div>
+            <h4>Blade-Free LASIK & Cataract Center</h4>
+            <p>Femto-LASIK, phacoemulsification cataract surgery, glaucoma management, and retina diagnostics.</p>
+            <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20need%20an%20Eye%20%2F%20LASIK%20%2F%20Cataract%20consultation.%20Please%20share%20details." class="btn btn-primary btn-xs" target="_blank">Enquire Cost / Book on WhatsApp</a>
+          </div>
+          <div class="dept-card">
+            <div class="dept-card-icon">👂</div>
+            <h4>Ear, Nose, Throat & Sinus Endoscopy</h4>
+            <p>FESS for chronic sinusitis, tonsillectomy, adenoidectomy, hearing evaluation, and voice disorders.</p>
+            <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20need%20an%20ENT%20consultation.%20Please%20share%20details%20and%20timings." class="btn btn-primary btn-xs" target="_blank">Enquire Cost / Book on WhatsApp</a>
+          </div>
+          <div class="dept-card">
+            <div class="dept-card-icon">🌀</div>
+            <h4>Vertigo & Allergy Clinic</h4>
+            <p>BPPV diagnosis, vestibular rehabilitation, allergy testing, immunotherapy, and desensitisation programs.</p>
+            <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20need%20a%20Vertigo%20%2F%20Allergy%20consultation.%20Please%20share%20details." class="btn btn-primary btn-xs" target="_blank">Enquire Cost / Book on WhatsApp</a>
+          </div>
+          <div class="dept-card">
+            <div class="dept-card-icon">🔧</div>
+            <h4>Day-Care Laser Surgeries</h4>
+            <p>Minor to intermediate surgical procedures with same-day discharge — ear tubes, nasal polyps, pterygia, and more.</p>
+            <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20need%20information%20about%20Day-Care%20Surgery%20options.%20Please%20share%20details." class="btn btn-primary btn-xs" target="_blank">Enquire Cost / Book on WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 4: Women, Maternity & Child Care -->
+    <div class="dept-panel" id="tab4">
+      <div class="dept-grid">
+        <div class="dept-image"><img src="images/clinic6.jpg" alt="Maternity and nursing care"></div>
+        <div class="dept-cards">
+          <div class="dept-card">
+            <div class="dept-card-icon">🩺</div>
+            <h4>Gynaecology & High-Risk Pregnancy</h4>
+            <p>Complete gynae care, PCOD management, high-risk pregnancy monitoring, and menopause support.</p>
+            <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20need%20a%20Gynaecology%20consultation.%20Please%20share%20timings%20and%20details." class="btn btn-primary btn-xs" target="_blank">Enquire Cost / Book on WhatsApp</a>
+          </div>
+          <div class="dept-card">
+            <div class="dept-card-icon">🤱</div>
+            <h4>Boutique Maternity & Nursing Home</h4>
+            <p>Private maternity suites, normal & cesarean deliveries, lactation support, and postnatal nursing care.</p>
+            <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20need%20Maternity%20%2F%20Delivery%20information.%20Please%20share%20package%20details." class="btn btn-primary btn-xs" target="_blank">Enquire Cost / Book on WhatsApp</a>
+          </div>
+          <div class="dept-card">
+            <div class="dept-card-icon">💝</div>
+            <h4>IVF & Fertility Guidance</h4>
+            <p>Infertility evaluation, IUI/IVF counselling, hormonal treatment, and reproductive health support.</p>
+            <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20need%20IVF%20%2F%20Fertility%20consultation.%20Please%20share%20details%20and%20cost." class="btn btn-primary btn-xs" target="_blank">Enquire Cost / Book on WhatsApp</a>
+          </div>
+          <div class="dept-card">
+            <div class="dept-card-icon">👶</div>
+            <h4>Pediatric & Children's Vaccination Clinic</h4>
+            <p>Child health checkups, vaccination schedules, paediatric emergencies, growth monitoring, and nutrition guidance.</p>
+            <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20need%20a%20Pediatric%20%2F%20Child%20Vaccination%20appointment.%20Please%20share%20details." class="btn btn-primary btn-xs" target="_blank">Enquire Cost / Book on WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 5: General, Chest, Heart & Diabetes -->
+    <div class="dept-panel" id="tab5">
+      <div class="dept-grid">
+        <div class="dept-image"><img src="images/clinic2.jpg" alt="Doctor specialist consultation"></div>
+        <div class="dept-cards">
+          <div class="dept-card">
+            <div class="dept-card-icon">🩻</div>
+            <h4>Routine Health Checkups & Fever Clinic</h4>
+            <p>Comprehensive health screening, executive checkup packages, acute fever management, and preventive health programs.</p>
+            <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20need%20a%20Health%20Checkup%20%2F%20General%20Medicine%20consultation.%20Please%20share%20details." class="btn btn-primary btn-xs" target="_blank">Enquire Cost / Book on WhatsApp</a>
+          </div>
+          <div class="dept-card">
+            <div class="dept-card-icon">🫁</div>
+            <h4>Lung, Chest, Asthma & Sleep Apnea</h4>
+            <p>Pulmonology consultations, PFT testing, asthma control, COPD management, and sleep apnea diagnostics.</p>
+            <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20need%20a%20Chest%20%2F%20Pulmonology%20consultation.%20Please%20share%20timings." class="btn btn-primary btn-xs" target="_blank">Enquire Cost / Book on WhatsApp</a>
+          </div>
+          <div class="dept-card">
+            <div class="dept-card-icon">❤️</div>
+            <h4>Diabetes, Thyroid & Preventive Heart Care</h4>
+            <p>Diabetology, thyroid management, lipid disorders, ECG, 2D Echo, and cardiac risk assessment.</p>
+            <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20need%20a%20Diabetes%20%2F%20Heart%20%2F%20Thyroid%20consultation.%20Please%20share%20details." class="btn btn-primary btn-xs" target="_blank">Enquire Cost / Book on WhatsApp</a>
+          </div>
+          <div class="dept-card">
+            <div class="dept-card-icon">🌿</div>
+            <h4>Homeopathy & Holistic Chronic Care</h4>
+            <p>Classical homeopathy, Ayurvedic panchakarma, holistic wellness programs, and chronic disease management.</p>
+            <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20am%20interested%20in%20Homeopathy%20%2F%20Ayurveda%20consultation.%20Please%20share%20details." class="btn btn-primary btn-xs" target="_blank">Enquire Cost / Book on WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 6: Urology, Kidney & Day-Care OT -->
+    <div class="dept-panel" id="tab6">
+      <div class="dept-grid">
+        <div class="dept-image"><img src="images/clinic1.jpg" alt="Apex Care luxury reception"></div>
+        <div class="dept-cards">
+          <div class="dept-card">
+            <div class="dept-card-icon">💧</div>
+            <h4>Laser Kidney Stone & Prostate Care</h4>
+            <p>URS, RIRS, PCNL for kidney stones, laser prostate (HoLEP), and urinary tract infection management.</p>
+            <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20need%20a%20Urology%20%2F%20Kidney%20Stone%20consultation.%20Please%20share%20details%20and%20cost." class="btn btn-primary btn-xs" target="_blank">Enquire Cost / Book on WhatsApp</a>
+          </div>
+          <div class="dept-card">
+            <div class="dept-card-icon">🔬</div>
+            <h4>Laparoscopic General Surgery</h4>
+            <p>Minimally invasive laparoscopic hernia repair, gallbladder removal, appendectomy, and fistula surgery.</p>
+            <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20need%20a%20General%20Surgery%20%2F%20Laparoscopy%20consultation.%20Please%20share%20details." class="btn btn-primary btn-xs" target="_blank">Enquire Cost / Book on WhatsApp</a>
+          </div>
+          <div class="dept-card">
+            <div class="dept-card-icon">📋</div>
+            <h4>Endoscopy & Diagnostics</h4>
+            <p>Upper GI endoscopy, colonoscopy, ultrasound-guided biopsies, and in-house pathology lab services.</p>
+            <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20need%20an%20Endoscopy%20%2F%20Diagnostic%20procedure.%20Please%20share%20details." class="btn btn-primary btn-xs" target="_blank">Enquire Cost / Book on WhatsApp</a>
+          </div>
+          <div class="dept-card">
+            <div class="dept-card-icon">🛏️</div>
+            <h4>Deluxe In-Patient Recovery Suites</h4>
+            <p>Private AC rooms, round-the-clock nursing, dietician-planned meals, and comfortable post-surgical recovery.</p>
+            <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20need%20information%20about%20In-Patient%20%2F%20Recovery%20Room%20facilities.%20Please%20share%20details." class="btn btn-primary btn-xs" target="_blank">Enquire Cost / Book on WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Wave Divider -->
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path d="M0,30 C240,0 480,60 720,30 C960,0 1200,60 1440,30 L1440,60 L0,60 Z"/>
+  </svg>
+</div>
+
+<!-- ============ INFRASTRUCTURE ============ -->
+<section class="section-pad" id="infrastructure">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:50px;">
+      <div class="section-tag">🏗️ World-Class Infrastructure</div>
+      <h2 class="section-title">Built for Clinical Excellence & Patient Comfort</h2>
+      <p class="section-sub mx-auto">From confidential consultation chambers to modular operating suites — every space is designed for zero-compromise medical care.</p>
+    </div>
+    <div class="infra-grid reveal">
+      <div class="infra-card">
+        <div class="infra-icon">🏥</div>
+        <h4>Private OPD Consultation Suites</h4>
+        <p>Zero-wait, confidential 1-on-1 consultation chambers with soundproofing, digital display, and comfortable seating for patient & family.</p>
+      </div>
+      <div class="infra-card">
+        <div class="infra-icon">⚙️</div>
+        <h4>Modular Day-Care OT & Laser Suite</h4>
+        <p>100% sterile HEPA-filtered environment with laminar flow, LED surgical lights, and advanced monitoring for minor & specialised surgeries.</p>
+      </div>
+      <div class="infra-card">
+        <div class="infra-icon">🛏️</div>
+        <h4>Deluxe Nursing & Recovery Rooms</h4>
+        <p>Comfortable AC observation beds, motorised recliners, nurse call systems, and hotel-like in-patient care for post-procedure recovery.</p>
+      </div>
+      <div class="infra-card">
+        <div class="infra-icon">🧪</div>
+        <h4>In-House Diagnostics, Pharmacy & TPA</h4>
+        <p>Pathology lab, ECG, X-Ray, ultrasound, on-site pharmacy, and cashless processing with 30+ major insurance & TPA partners.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Wave Divider -->
+<div class="wave-divider alt">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path d="M0,20 C300,50 600,0 900,30 C1100,50 1300,10 1440,30 L1440,60 L0,60 Z"/>
+  </svg>
+</div>
+
+<!-- ============ TRIAGE CALCULATOR ============ -->
+<section class="section-pad section-bg" id="triage">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:40px;">
+      <div class="section-tag">📱 Instant Private Booking</div>
+      <h2 class="section-title">Book Your Visit in 3 Clicks</h2>
+      <p class="section-sub mx-auto">Skip the phone queue — build your consultation request instantly and send it privately on WhatsApp. We'll confirm your slot within minutes.</p>
+    </div>
+    <div class="triage-box reveal">
+      <div class="triage-row">
+        <div class="triage-field">
+          <label>Select Specialty</label>
+          <select id="triageSpecialty">
+            <option value="">— Choose Specialty —</option>
+            <option>Skin, Laser & Dermatology</option>
+            <option>Hair Transplant (FUE / PRP)</option>
+            <option>Eye / LASIK / Cataract</option>
+            <option>ENT / Ear / Sinus</option>
+            <option>Orthopedics / Joint / Fracture</option>
+            <option>Brain / Spine / Neuro</option>
+            <option>Physiotherapy & Rehab</option>
+            <option>Gynaecology / Women's Health</option>
+            <option>Maternity / Pregnancy</option>
+            <option>Pediatric / Children's Health</option>
+            <option>Chest / Lung / Pulmonology</option>
+            <option>Diabetes / Thyroid / Heart</option>
+            <option>Urology / Kidney Stone</option>
+            <option>General Surgery / Laparoscopy</option>
+            <option>General Medicine / Health Checkup</option>
+            <option>Homeopathy / Ayurveda</option>
+          </select>
+        </div>
+        <div class="triage-field">
+          <label>Visit Type</label>
+          <select id="triageVisit">
+            <option value="">— Select Visit Type —</option>
+            <option>First Consultation</option>
+            <option>Procedure / Surgery Cost Enquiry</option>
+            <option>Second Opinion</option>
+            <option>Routine Health Checkup</option>
+          </select>
+        </div>
+      </div>
+      <div class="triage-row">
+        <div class="triage-field">
+          <label>Preferred Center</label>
+          <select id="triageCenter">
+            <option>RC Dutt Road, Alkapuri</option>
+            <option>Manjalpur Branch</option>
+          </select>
+        </div>
+        <div class="triage-field">
+          <label>Preferred Shift</label>
+          <select id="triageShift">
+            <option>Morning 9:30 AM – 1:30 PM</option>
+            <option>Evening 4:30 PM – 8:30 PM</option>
+          </select>
+        </div>
+      </div>
+      <div class="triage-btn" style="text-align:center;">
+        <button class="btn btn-primary" onclick="sendTriageWhatsApp()" style="width:100%;justify-content:center;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.612.638l4.682-1.244A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.253 0-4.39-.727-6.172-2.072a.5.5 0 00-.414-.082l-3.348.89.647-2.872a.5.5 0 00-.069-.39A9.957 9.957 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+          Send Private Enquiry on WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Wave Divider -->
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z"/>
+  </svg>
+</div>
+
+<!-- ============ SPECIALISTS ============ -->
+<section class="section-pad" id="specialists">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:50px;">
+      <div class="section-tag">👨‍⚕️ Principal Specialists</div>
+      <h2 class="section-title">Meet Our Lead Consultants</h2>
+      <p class="section-sub mx-auto">Experienced, board-certified specialists delivering personalised, evidence-based care with warmth and precision.</p>
+    </div>
+    <div class="spec-grid reveal">
+      <div class="spec-card">
+        <div class="spec-avatar">👨‍⚕️</div>
+        <div class="spec-info">
+          <h4>Dr. Aarav Patel</h4>
+          <div class="spec-title">MD, Senior Consultant Physician & Specialist</div>
+          <p class="spec-detail">15+ years of clinical excellence in internal medicine, diabetes management, preventive cardiology, and multi-specialty consultations. Known for thorough diagnosis and compassionate patient communication.</p>
+          <div class="spec-badges">
+            <span class="spec-badge-item">Internal Medicine</span>
+            <span class="spec-badge-item">Diabetology</span>
+            <span class="spec-badge-item">Preventive Cardio</span>
+            <span class="spec-badge-item">Mon–Sat, 9 AM – 1 PM</span>
+          </div>
+        </div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-avatar">👩‍⚕️</div>
+        <div class="spec-info">
+          <h4>Dr. Meera Desai</h4>
+          <div class="spec-title">MS, Lead Surgeon & Clinical Director</div>
+          <p class="spec-detail">18+ years in advanced surgical care including laparoscopic surgery, day-care OT procedures, and clinical administration. Pioneers minimally invasive techniques with rapid patient recovery protocols.</p>
+          <div class="spec-badges">
+            <span class="spec-badge-item">General Surgery</span>
+            <span class="spec-badge-item">Laparoscopy</span>
+            <span class="spec-badge-item">Day-Care OT</span>
+            <span class="spec-badge-item">Mon–Sat, 4:30 PM – 8:30 PM</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Wave Divider -->
+<div class="wave-divider alt">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path d="M0,20 C300,50 600,0 900,30 C1100,50 1300,10 1440,30 L1440,60 L0,60 Z"/>
+  </svg>
+</div>
+
+<!-- ============ FACILITY GALLERY ============ -->
+<section class="section-pad section-bg" id="gallery">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:50px;">
+      <div class="section-tag">📸 Facility Tour</div>
+      <h2 class="section-title">Take a Virtual Walk Through Our Hospital</h2>
+      <p class="section-sub mx-auto">Every corner reflects our commitment to hygiene, technology, and patient comfort.</p>
+    </div>
+    <div class="gallery-grid reveal">
+      <div class="gallery-item" onclick="openLightbox(0)">
+        <img src="images/clinic1.jpg" alt="Luxury clinic reception lounge" loading="lazy">
+        <div class="gallery-overlay"><span class="gallery-caption">Reception & Welcome Lounge</span></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(1)">
+        <img src="images/clinic2.jpg" alt="Private specialist consultation" loading="lazy">
+        <div class="gallery-overlay"><span class="gallery-caption">Private OPD Consultation Suite</span></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(2)">
+        <img src="images/clinic3.jpg" alt="Laser and diagnostics equipment" loading="lazy">
+        <div class="gallery-overlay"><span class="gallery-caption">Laser & Diagnostic Treatment Room</span></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(3)">
+        <img src="images/clinic4.jpg" alt="Physiotherapy and rehab studio" loading="lazy">
+        <div class="gallery-overlay"><span class="gallery-caption">Physiotherapy & Rehab Studio</span></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(4)">
+        <img src="images/clinic5.jpg" alt="Day-care operation theatre" loading="lazy">
+        <div class="gallery-overlay"><span class="gallery-caption">Modular Day-Care OT Suite</span></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(5)">
+        <img src="images/clinic6.jpg" alt="VIP recovery room" loading="lazy">
+        <div class="gallery-overlay"><span class="gallery-caption">Deluxe Recovery & Nursing Room</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox Modal -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <button class="lightbox-nav lightbox-prev" onclick="navLightbox(-1)">‹</button>
+  <img id="lightboxImg" src="" alt="Facility photo">
+  <button class="lightbox-nav lightbox-next" onclick="navLightbox(1)">›</button>
+</div>
+
+<!-- Wave Divider -->
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z"/>
+  </svg>
+</div>
+
+<!-- ============ PATIENT STORIES ============ -->
+<section class="section-pad" id="stories">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:50px;">
+      <div class="section-tag">⭐ Patient Stories</div>
+      <h2 class="section-title">What Our Patients Say</h2>
+      <p class="section-sub mx-auto">Real experiences from real patients who trust Apex Care for their health and wellbeing.</p>
+    </div>
+    <div class="stories-grid reveal">
+      <div class="story-card">
+        <div class="story-stars">★★★★★</div>
+        <p class="story-text">"The laser treatment for my skin pigmentation was outstanding. Dr. Patel explained everything in detail, and the results were visible within weeks. The clinic ambiance is world-class."</p>
+        <div class="story-author">Priya Sharma</div>
+        <div class="story-dept">Dermatology & Laser</div>
+      </div>
+      <div class="story-card">
+        <div class="story-stars">★★★★★</div>
+        <p class="story-text">"Had my knee replacement surgery here. The modular OT, nursing care, and physiotherapy support were exceptional. I was walking within days. Highly recommend their ortho team."</p>
+        <div class="story-author">Ramesh Patel</div>
+        <div class="story-dept">Orthopedics & Physiotherapy</div>
+      </div>
+      <div class="story-card">
+        <div class="story-stars">★★★★★</div>
+        <p class="story-text">"My entire pregnancy was managed here — from the first scan to delivery. The maternity suite felt like a 5-star hotel. Dr. Desai and her team made us feel completely safe and cared for."</p>
+        <div class="story-author">Neha Joshi</div>
+        <div class="story-dept">Maternity & Gynaecology</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Wave Divider -->
+<div class="wave-divider alt">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path d="M0,20 C300,50 600,0 900,30 C1100,50 1300,10 1440,30 L1440,60 L0,60 Z"/>
+  </svg>
+</div>
+
+<!-- ============ FAQ ============ -->
+<section class="section-pad section-bg" id="faq">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:50px;">
+      <div class="section-tag">❓ Frequently Asked Questions</div>
+      <h2 class="section-title">Quick Answers for Patients</h2>
+    </div>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How do I book a private mobile consultation without calling the clinic?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Simply use our WhatsApp Booking tool above — select your specialty, visit type, and preferred time slot, then tap "Send Private Enquiry on WhatsApp." Our reception team will confirm your appointment within minutes. You can also directly message us at +91 99999 99999 on WhatsApp anytime.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Do you accept cashless health insurance and TPA?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Yes, Apex Care is empanelled with 30+ major insurance companies and TPA partners including Star Health, ICICI Lombard, HDFC Ergo, New India Assurance, United India, Bajaj Allianz, and more. Our billing desk handles all pre-authorization and cashless claim processing for both OPD and day-care procedures.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How long does a day-care surgery take, and when can I go home?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Most day-care surgical procedures (cataract, sinus endoscopy, laser kidney stone, hernia repair, etc.) are completed within 30–90 minutes. Patients are monitored in our recovery suite for 2–4 hours post-procedure and typically discharged the same day with detailed post-op instructions and medications.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Can I receive my lab reports on WhatsApp?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Absolutely. All pathology, ECG, X-Ray, and diagnostic reports can be securely sent to your registered WhatsApp number within 4–6 hours of sample collection. Our diagnostics team ensures prompt and confidential delivery of all results.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Is parking available at the RC Dutt Road (Alkapuri) clinic?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Yes, we have a dedicated parking area for patients and visitors at our Emerald Square building on RC Dutt Road. Additionally, public parking is available near Chakli Circle. For the Manjalpur branch, ample street parking and a nearby lot are accessible within 1 minute walk.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Wave Divider -->
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path d="M0,30 C240,0 480,60 720,30 C960,0 1200,60 1440,30 L1440,60 L0,60 Z"/>
+  </svg>
+</div>
+
+<!-- ============ LOCATION & MAP ============ -->
+<section class="section-pad" id="location">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:50px;">
+      <div class="section-tag">📍 Find Us</div>
+      <h2 class="section-title">Visit Apex Care</h2>
+      <p class="section-sub mx-auto">Conveniently located in the heart of Vadodara with two accessible branches.</p>
+    </div>
+    <div class="map-section reveal">
+      <div class="map-info">
+        <div class="map-address-label" id="mapLabel">APEX CARE MAIN CENTER — ALKAPURI</div>
+        <div class="map-address" id="mapAddress">2nd Floor, Emerald Square, Near Chakli Circle, RC Dutt Road, Alkapuri, Vadodara, Gujarat 390007</div>
+        <div class="map-btns">
+          <a href="https://www.google.com/maps/dir/?api=1&destination=RC+Dutt+Road+Alkapuri+Vadodara" target="_blank" class="btn btn-primary btn-sm">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Get Directions
+          </a>
+          <a href="tel:+919999999999" class="btn btn-glass btn-sm">📞 Call +91 99999 99999</a>
+          <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20would%20like%20to%20visit%20your%20clinic.%20Please%20share%20directions." target="_blank" class="btn btn-glass btn-sm">💬 WhatsApp Reception</a>
+        </div>
+        <div class="map-timing">
+          <strong>OPD Timings:</strong><br>
+          Monday – Saturday<br>
+          Morning: 9:00 AM – 2:00 PM<br>
+          Evening: 4:30 PM – 8:30 PM<br><br>
+          <strong>Sunday:</strong> Closed (Emergency & Nursing: 24×7)<br><br>
+          <strong>Emergency & Nursing Desk:</strong> Available 24×7<br>
+          <strong>Contact:</strong> +91 99999 99999
+        </div>
+      </div>
+      <div class="map-embed">
+        <iframe id="mapIframe" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3691.169!2d73.1812!3d22.3119!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395fc5a7!2sRC+Dutt+Road%2C+Alkapuri%2C+Vadodara!5e0!3m2!1sen!2sin!4v1690000000000!5m2!1sen!2sin" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>Apex Care</h3>
+        <p>Premier Multi-Specialty Clinic & Day-Care Surgical Hospital in Vadodara. Specialist OPD • Laser Procedures • Day-Care Surgeries across 22+ specialties.</p>
+        <div style="display:flex;gap:10px;">
+          <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care" target="_blank" class="btn btn-primary btn-xs">WhatsApp Us</a>
+          <a href="tel:+919999999999" class="btn btn-glass btn-xs">Call Now</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="#departments">Departments</a>
+        <a href="#infrastructure">Infrastructure</a>
+        <a href="#specialists">Specialists</a>
+        <a href="#gallery">Facility Tour</a>
+        <a href="#faq">FAQ</a>
+        <a href="#location">Location</a>
+      </div>
+      <div class="footer-col">
+        <h4>Key Specialties</h4>
+        <a href="#departments">Dermatology & Laser</a>
+        <a href="#departments">Orthopedics & Physio</a>
+        <a href="#departments">Eye, ENT & Surgery</a>
+        <a href="#departments">Maternity & Child Care</a>
+        <a href="#departments">Urology & Kidney</a>
+        <a href="#departments">General Medicine</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="tel:+919999999999">📞 +91 99999 99999</a>
+        <a href="https://wa.me/919999999999" target="_blank">💬 WhatsApp Chat</a>
+        <a href="#location">📍 RC Dutt Rd, Alkapuri</a>
+        <a href="#location">📍 Manjalpur Branch</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 Apex Care — Multi-Specialty Clinic & Surgical Hospital, Vadodara. All rights reserved.</span>
+      <span>Designed with ❤️ for better healthcare</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ FLOATING ACTION HUB ============ -->
+<div class="fab-container" id="fabContainer">
+  <div class="fab-label">Need Help? Chat / Call</div>
+  <div class="fab-menu">
+    <button class="fab-menu-item" onclick="openChatbot()">
+      <div class="fab-item-icon">💬</div>
+      <span>Open Clinic Assistant</span>
+    </button>
+    <a href="https://wa.me/919999999999?text=Hi%20Apex%20Care%2C%20I%20need%20assistance." target="_blank" class="fab-menu-item">
+      <div class="fab-item-icon">📱</div>
+      <span>Direct WhatsApp Chat</span>
+    </a>
+    <a href="tel:+919999999999" class="fab-menu-item">
+      <div class="fab-item-icon">📞</div>
+      <span>Call Reception Now</span>
+    </a>
+    <button class="fab-menu-item" onclick="scrollToSection('#triage')">
+      <div class="fab-item-icon">📋</div>
+      <span>Quick Book Appointment</span>
+    </button>
+    <button class="fab-menu-item" onclick="scrollToSection('#location')">
+      <div class="fab-item-icon">📍</div>
+      <span>Location & Map Directions</span>
+    </button>
+  </div>
+  <button class="fab-main" id="fabBtn" onclick="toggleFab()">
+    <span id="fabIcon">💬</span>
+  </button>
+</div>
+
+<!-- ============ CHATBOT DRAWER ============ -->
+<div class="chatbot-drawer" id="chatbotDrawer">
+  <div class="chatbot-header">
+    <h4>🏥 Apex Care Assistant</h4>
+    <button class="chatbot-close" onclick="closeChatbot()">✕</button>
+  </div>
+  <div class="chatbot-body" id="chatBody">
+    <div class="chat-msg bot">
+      Hi! 👋 Welcome to Apex Care — Multi-Specialty Clinic & Surgical Hospital, Vadodara. How can I help you today?
+    </div>
+    <div class="chat-chips" id="chatChips">
+      <button class="chat-chip" onclick="handleChip(1)">1. Book a Private Specialist Consultation</button>
+      <button class="chat-chip" onclick="handleChip(2)">2. Ask Treatment / Surgery Package Cost</button>
+      <button class="chat-chip" onclick="handleChip(3)">3. Skin, Laser & Hair Transplant Enquiry</button>
+      <button class="chat-chip" onclick="handleChip(4)">4. Eye, ENT, Ortho & Physio Timings</button>
+      <button class="chat-chip" onclick="handleChip(5)">5. Maternity, Gyno & Child Care Details</button>
+      <button class="chat-chip" onclick="handleChip(6)">6. Cashless Insurance & TPA Support</button>
+      <button class="chat-chip" onclick="handleChip(7)">7. Request Home Sample Collection / Lab Reports</button>
+      <button class="chat-chip" onclick="handleChip(8)">8. Clinic Address (RC Dutt Rd, Alkapuri) & Parking</button>
+    </div>
+  </div>
+  <div class="chatbot-input">
+    <input type="text" id="chatInput" placeholder="Type your question..." onkeydown="if(event.key==='Enter')sendChatMsg()">
+    <button onclick="sendChatMsg()">Send</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
